@@ -20,11 +20,15 @@ void setup() {
     // Set initial pattern here...
 
     // Glider
-    game.live(1, 0);
-    game.live(2, 1);
-    game.live(0, 2);
-    game.live(1, 2);
-    game.live(2, 2);
+    // game.live(1, 0);
+    // game.live(2, 1);
+    // game.live(0, 2);
+    // game.live(1, 2);
+    // game.live(2, 2);
+
+    // Or randomise...
+
+    game.gridRandomise();
 }
 
 void draw() {

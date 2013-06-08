@@ -26,6 +26,16 @@ class GameOfLifeGrid {
         }
     }
 
+    void gridRandomise() {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (int(random(2)) == 1) {
+                    cells[y][x] = true;
+                }
+            }
+        }
+    }
+
     void gridCopy() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
