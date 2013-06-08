@@ -14,11 +14,9 @@ boolean running;
 
 void setup() {
     size(SCREEN_WIDTH, SCREEN_HEIGHT);
+    background(BLACK);
 
     game = new Grid(width, height, cellSize, CYAN, ELECTRIC_BLUE, BLACK);
-    // game.randomiseGrid();
-    game.draw();
-
     pause();
 }
 
@@ -36,6 +34,12 @@ void keyPressed() {
         case RETURN:
             if (running) pause();
             else play();
+            break;
+        case BACKSPACE:
+            if (!running) {
+                game.randomiseGrid();
+                game.draw();
+            }
             break;
     }
 }
@@ -64,7 +68,8 @@ void mousePressed() {
                 break;
         }
 
-        mouseMoved();
+        game.draw();
+        game.highlight(x, y);
     }
 }
 

@@ -43,6 +43,8 @@ class Grid {
             for (int x = 0; x < width; x++) {
                 if (int(random(2)) == 1) {
                     cells[y][x].live();
+                } else {
+                    cells[y][x].die();
                 }
             }
         }
