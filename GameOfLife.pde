@@ -5,6 +5,7 @@ final int CYAN = #00FFFF;
 final int DELAY = 100;
 
 GameOfLifeGrid game;
+boolean play;
 
 void setup() {
     size(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -16,6 +17,7 @@ void setup() {
     int gridHeight = height / cellSize;
 
     game = new GameOfLifeGrid(gridWidth, gridHeight, cellSize);
+    play = false;
 
     // Set initial pattern here...
 
@@ -29,15 +31,31 @@ void setup() {
     // Or randomise...
 
     game.gridRandomise();
+
+    background(BLACK);
+    game.draw();
+}
+
+void keyPressed() {
+    if (key == ENTER || key == RETURN) {
+        if (play) {
+            play = false;
+        } else {
+            play = true;
+        }
+    }
 }
 
 void draw() {
-    background(BLACK);
-    game.draw();
-    game.update();
+    if (play) {
+        try {
+            Thread.sleep(DELAY);
+        } catch (InterruptedException e) {
+        }
 
-    try {
-        Thread.sleep(DELAY);
-    } catch (InterruptedException e) {
+        game.update();
+
+        background(BLACK);
+        game.draw();
     }
 }
