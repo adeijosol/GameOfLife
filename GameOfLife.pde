@@ -15,9 +15,9 @@ boolean running;
 void setup() {
     size(SCREEN_WIDTH, SCREEN_HEIGHT);
     background(BLACK);
+    pause();
 
     game = new Grid(width, height, cellSize, CYAN, ELECTRIC_BLUE, BLACK);
-    pause();
 }
 
 void play() {

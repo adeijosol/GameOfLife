@@ -83,8 +83,9 @@ class Grid {
         int neighbours = 0;
 
         for (int yi = y - 1; yi <= y + 1; yi++) {
+            if (yi < 0 || yi >= height) continue;
             for (int xi = x - 1; xi <= x + 1; xi++) {
-                if (xi < 0 || xi >= width || yi < 0 || yi >= height) continue;
+                if (xi < 0 || xi >= width) continue;
                 if (xi == x && yi == y) continue;
                 if (oldCells[yi][xi].isAlive()) neighbours++;
             }
