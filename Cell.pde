@@ -27,7 +27,10 @@ class Cell {
     }
 
     void draw() {
-        rect(x * size, y * size, size, size);
+        pushMatrix();
+        translate(x * size, y * size);
+        rect(0, 0, size, size);
+        popMatrix();
     }
 
 }
