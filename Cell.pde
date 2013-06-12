@@ -3,14 +3,12 @@ class Cell {
     int x;
     int y;
     int size;
-
     boolean alive;
 
     Cell(int x, int y, int size, boolean alive) {
         this.x = x;
         this.y = y;
         this.size = size;
-
         this.alive = alive;
     }
 
