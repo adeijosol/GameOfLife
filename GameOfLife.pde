@@ -13,73 +13,73 @@ Grid game;
 boolean running;
 
 void setup() {
-    size(SCREEN_WIDTH, SCREEN_HEIGHT);
-    background(BLACK);
-    pause();
+  size(SCREEN_WIDTH, SCREEN_HEIGHT);
+  background(BLACK);
+  pause();
 
-    game = new Grid(width, height, cellSize, CYAN, ELECTRIC_BLUE, BLACK);
+  game = new Grid(width, height, cellSize, CYAN, ELECTRIC_BLUE, BLACK);
 }
 
 void play() {
-    running = true;
+  running = true;
 }
 
 void pause() {
-    running = false;
+  running = false;
 }
 
 void keyPressed() {
-    switch (key) {
-        case ENTER:
-        case RETURN:
-            if (running) pause();
-            else play();
-            break;
-        case BACKSPACE:
-            if (!running) {
-                game.randomiseGrid();
-                game.draw();
-            }
-            break;
-    }
+  switch (key) {
+    case ENTER:
+    case RETURN:
+      if (running) pause();
+      else play();
+      break;
+    case BACKSPACE:
+      if (!running) {
+        game.randomiseGrid();
+        game.draw();
+      }
+      break;
+  }
 }
 
 void mouseMoved() {
-    if (!running) {
-        int x = game.getCoordinate(mouseX);
-        int y = game.getCoordinate(mouseY);
+  if (!running) {
+    int x = game.getCoordinate(mouseX);
+    int y = game.getCoordinate(mouseY);
 
-        game.draw();
-        game.highlight(x, y);
-    }
+    game.draw();
+    game.highlight(x, y);
+  }
 }
 
 void mousePressed() {
-    if (!running) {
-        int x = game.getCoordinate(mouseX);
-        int y = game.getCoordinate(mouseY);
+  if (!running) {
+    int x = game.getCoordinate(mouseX);
+    int y = game.getCoordinate(mouseY);
 
-        switch (mouseButton) {
-            case LEFT:
-                game.live(x, y);
-                break;
-            case RIGHT:
-                game.die(x, y);
-                break;
-        }
-
-        game.draw();
-        game.highlight(x, y);
+    switch (mouseButton) {
+      case LEFT:
+        game.live(x, y);
+        break;
+      case RIGHT:
+        game.die(x, y);
+        break;
     }
+
+    game.draw();
+    game.highlight(x, y);
+  }
 }
 
 void draw() {
-    if (running) {
-        try {
-            Thread.sleep(DELAY);
-        } catch (InterruptedException e) {}
+  if (running) {
+    try {
+      Thread.sleep(DELAY);
+    } catch (InterruptedException e) {}
 
-        game.update();
-        game.draw();
-    }
+    game.update();
+    game.draw();
+  }
 }
