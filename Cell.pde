@@ -22,8 +22,7 @@ class Cell {
 
   void live(color colour) {
     alive = true;
-    if (colour == RANDOM) this.colour = color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR));
-    else this.colour = colour;
+    this.colour = (colour == RANDOM) ? generateRandomColour() : colour;
   }
 
   void die() {

@@ -10,6 +10,11 @@ final int DELAY = 100;
 boolean running = false;
 color colour = BLACK;
 
+int previousX = 0;
+int previousY = 0;
+int x = 0;
+int y = 0;
+
 Grid grid;
 
 void setup() {
@@ -27,6 +32,19 @@ void setup() {
 void draw() {
   if (running) grid.update();
   grid.draw();
+
+  if (!running) {
+    x = grid.getCoordinate(mouseX);
+    y = grid.getCoordinate(mouseY);
+
+    if (x != previousX || y != previousY) {
+      previousX = x;
+      previousY = y;
+      colour = generateRandomColour();
+    }
+
+    grid.highlight(x, y, colour);
+  }
 
   try {
     Thread.sleep(DELAY);
@@ -51,9 +69,6 @@ void keyPressed() {
 void mousePressed() {
   if (running) return;
 
-  int x = grid.getCoordinate(mouseX);
-  int y = grid.getCoordinate(mouseY);
-
   switch (mouseButton) {
     case LEFT:
       grid.live(x, y, colour);
@@ -62,17 +77,8 @@ void mousePressed() {
       grid.die(x, y);
       break;
   }
-
-  grid.highlight(x, y, colour);
 }
 
-void mouseMoved() {
-  if (running) return;
-
-  int x = grid.getCoordinate(mouseX);
-  int y = grid.getCoordinate(mouseY);
-
-  colour = color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR));
-
-  grid.highlight(x, y, colour);
+color generateRandomColour() {
+  return color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR));
 }
