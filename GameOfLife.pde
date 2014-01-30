@@ -3,10 +3,12 @@ final int SCREEN_HEIGHT = 768;
 
 final int MAX_COLOUR = 256;
 final int BLACK = #000000;
+final color RANDOM = color(0, 0, 0);
 
 final int DELAY = 100;
 
 boolean running = false;
+color colour = BLACK;
 
 Grid grid;
 
@@ -47,30 +49,30 @@ void keyPressed() {
 }
 
 void mousePressed() {
-  if (!running) {
-    int x = grid.getCoordinate(mouseX);
-    int y = grid.getCoordinate(mouseY);
+  if (running) return;
 
-    switch (mouseButton) {
-      case LEFT:
-        grid.live(x, y);
-        break;
-      case RIGHT:
-        grid.die(x, y);
-        break;
-    }
+  int x = grid.getCoordinate(mouseX);
+  int y = grid.getCoordinate(mouseY);
 
-    grid.draw();
-    grid.highlight(x, y);
+  switch (mouseButton) {
+    case LEFT:
+      grid.live(x, y, colour);
+      break;
+    case RIGHT:
+      grid.die(x, y);
+      break;
   }
+
+  grid.highlight(x, y, colour);
 }
 
 void mouseMoved() {
-  if (!running) {
-    int x = grid.getCoordinate(mouseX);
-    int y = grid.getCoordinate(mouseY);
+  if (running) return;
 
-    grid.draw();
-    grid.highlight(x, y);
-  }
+  int x = grid.getCoordinate(mouseX);
+  int y = grid.getCoordinate(mouseY);
+
+  colour = color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR));
+
+  grid.highlight(x, y, colour);
 }

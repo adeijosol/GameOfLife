@@ -57,10 +57,8 @@ class Grid {
     tick();
   }
 
-  void highlight(int x, int y) {
-    noStroke();
-    fill(color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR)));
-    cells[y][x].draw(true);
+  void highlight(int x, int y, color colour) {
+    cells[y][x].highlight(colour);
   }
 
   void draw() {
@@ -74,8 +72,8 @@ class Grid {
     }
   }
 
-  void live(int x, int y) {
-    cells[y][x].live();
+  void live(int x, int y, color colour) {
+    cells[y][x].live(colour);
   }
 
   void die(int x, int y) {
@@ -108,7 +106,7 @@ class Grid {
 
     void run() {
       for (int x = 0; x < width; x++) {
-        if (int(random(5)) == 0) cells[y][x].live();
+        if (int(random(5)) == 0) cells[y][x].live(RANDOM);
         else cells[y][x].die();
       }
     }
@@ -142,13 +140,13 @@ class Grid {
     void run() {
       for (int x = 0; x < width; x++) {
         if (isAlive(x, y) && neighbours(x, y) < 2) {
-          die(x, y);
+          cells[y][x].die();
         } else if (isAlive(x, y) && (neighbours(x, y) == 2 || neighbours(x, y) == 3)) {
-          live(x, y);
+          cells[y][x].live(RANDOM);
         } else if (isAlive(x, y) && neighbours(x, y) > 3) {
-          die(x, y);
+          cells[y][x].die();
         } else if (!isAlive(x, y) && neighbours(x, y) == 3) {
-          live(x, y);
+          cells[y][x].live(RANDOM);
         }
       }
     }

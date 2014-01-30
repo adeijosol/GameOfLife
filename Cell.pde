@@ -13,21 +13,27 @@ class Cell {
     this.size = size;
     this.alive = alive;
 
-    colour = BLACK;
+    colour = RANDOM;
   }
 
   boolean isAlive() {
     return alive;
   }
 
-  void live() {
+  void live(color colour) {
     alive = true;
-    if (colour == BLACK) colour = color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR));
+    if (colour == RANDOM) this.colour = color(random(MAX_COLOUR), random(MAX_COLOUR), random(MAX_COLOUR));
+    else this.colour = colour;
   }
 
   void die() {
     alive = false;
-    colour = BLACK;
+    colour = RANDOM;
+  }
+
+  void highlight(color colour) {
+    this.colour = colour;
+    draw(true);
   }
 
   void draw(boolean filled) {
