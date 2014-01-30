@@ -1,85 +1,76 @@
 final int SCREEN_WIDTH = 1366;
 final int SCREEN_HEIGHT = 768;
 
-final int CYAN = #00FFFF;
-final int ELECTRIC_BLUE = #00C0FF;
+final int MAX_COLOUR = 256;
 final int BLACK = #000000;
 
 final int DELAY = 100;
 
-int cellSize = 5;
+boolean running = false;
 
-Grid game;
-boolean running;
+Grid grid;
 
 void setup() {
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
   background(BLACK);
-  pause();
 
-  game = new Grid(width, height, cellSize, CYAN, ELECTRIC_BLUE, BLACK);
+  int cellSize = 5;
+
+  grid = new Grid(width, height, cellSize);
+
+  grid.randomise();
+  grid.draw();
 }
 
-void play() {
-  running = true;
-}
+void draw() {
+  if (running) grid.update();
+  grid.draw();
 
-void pause() {
-  running = false;
+  try {
+    Thread.sleep(DELAY);
+  } catch (InterruptedException e) {}
 }
 
 void keyPressed() {
   switch (key) {
-    case ENTER:
-    case RETURN:
-      if (running) pause();
-      else play();
+    case 'p':
+      running = !running;
       break;
-    case BACKSPACE:
-      if (!running) {
-        game.randomiseGrid();
-        game.draw();
-      }
+    case 'r':
+      grid.randomise();
+      grid.draw();
       break;
-  }
-}
-
-void mouseMoved() {
-  if (!running) {
-    int x = game.getCoordinate(mouseX);
-    int y = game.getCoordinate(mouseY);
-
-    game.draw();
-    game.highlight(x, y);
+    case 'f':
+      grid.toggleFill();
+      break;
   }
 }
 
 void mousePressed() {
   if (!running) {
-    int x = game.getCoordinate(mouseX);
-    int y = game.getCoordinate(mouseY);
+    int x = grid.getCoordinate(mouseX);
+    int y = grid.getCoordinate(mouseY);
 
     switch (mouseButton) {
       case LEFT:
-        game.live(x, y);
+        grid.live(x, y);
         break;
       case RIGHT:
-        game.die(x, y);
+        grid.die(x, y);
         break;
     }
 
-    game.draw();
-    game.highlight(x, y);
+    grid.draw();
+    grid.highlight(x, y);
   }
 }
 
-void draw() {
-  if (running) {
-    try {
-      Thread.sleep(DELAY);
-    } catch (InterruptedException e) {}
+void mouseMoved() {
+  if (!running) {
+    int x = grid.getCoordinate(mouseX);
+    int y = grid.getCoordinate(mouseY);
 
-    game.update();
-    game.draw();
+    grid.draw();
+    grid.highlight(x, y);
   }
 }
