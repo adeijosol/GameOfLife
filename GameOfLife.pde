@@ -69,7 +69,9 @@ void keyPressed() {
     case 'f': // Toggle live cell fill
       grid.toggleFill();
       break;
-    // TODO Implement quit key
+    case 'q': // Quit
+      exit();
+      break;
   }
 }
 
