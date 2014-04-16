@@ -1,9 +1,11 @@
+// NOTE Flashes of random background colours occur occasionally. Cause unknown.
+
 // Change the following as preferred:
 // ----------------------------------
 final int SCREEN_WIDTH = 1366;
 final int SCREEN_HEIGHT = 768;
 final int GAME_DELAY = 100;
-final int CELL_SIZE = 5; // NOTE Too small; causes flashes of random background colours; try > 5
+final int CELL_SIZE = 5;
 // ----------------------------------
 
 
