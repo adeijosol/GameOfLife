@@ -165,11 +165,10 @@ class Grid {
     int neighbours(int x, int y) { // Count cell's neighbours
       int neighbours = 0;
 
-      // TODO Implement toroidal (wrapping) world
-      for (int yi = y - 1; yi <= y + 1; yi++) {
-        if (yi < 0 || yi >= height) continue; // Only count cells within the grid
+      for (int yi = y - 1; yi <= y + 1; yi++) { // NOTE Wrapping does not work due to multi-threading
+        if (yi < 0 || yi >= height) continue; // Only count within the grid
         for (int xi = x - 1; xi <= x + 1; xi++) {
-          if (xi < 0 || xi >= width) continue; // Only count cells within the grid
+          if (xi < 0 || xi >= width) continue;
           if (xi == x && yi == y) continue; // Do not count the cell itself
           if (oldCells[yi][xi].isAlive()) neighbours++;
         }
