@@ -67,8 +67,7 @@ class Grid {
   void draw() {
     background(BLACK); // Overwrite previous grid
 
-    // Cannot multi-thread cell drawing
-    for (int y = 0; y < height; y++) {
+    for (int y = 0; y < height; y++) { // NOTE Cannot multi-thread cell drawing
       for (int x = 0; x < width; x++) {
         Cell cell = cells[y][x];
         if (cell.isAlive()) cell.draw(filled); // Only draw live cells
