@@ -36,6 +36,12 @@ class Grid {
     }
   }
 
+  void clear() { // Clear grid cells by row simultaneously
+    for (int y = 0; y < height; y++) {
+      (new ClearThread(y)).start();
+    }
+  }
+
   void randomise() { // Randomise cells' states by row simultaneously
     for (int y = 0; y < height; y++) {
       (new RandomiseThread(y)).start();
@@ -95,6 +101,23 @@ class Grid {
     void run() { // Fill grid row with cells
       for (int x = 0; x < width; x++) {
         cells[y][x] = new Cell(x, y, size, false);
+      }
+    }
+
+  }
+
+
+  class ClearThread extends Thread {
+
+    int y;
+
+    ClearThread(int y) {
+      this.y = y;
+    }
+
+    void run() { // Clear grid row cells
+      for (int x = 0; x < width; x++) {
+        cells[y][x].die();
       }
     }
 

@@ -63,6 +63,10 @@ void keyPressed() {
     case 'p': // Pause simulation
       gameIsRunning = !gameIsRunning;
       break;
+    case 'c': // Clear grid
+      grid.clear();
+      grid.draw();
+      break;
     case 'r': // Randomise grid
       grid.randomise();
       grid.draw();
