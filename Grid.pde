@@ -171,8 +171,6 @@ class Grid {
       for (int x = 0; x < width; x++) {
         if (isAlive(x, y) && neighbours(x, y) < 2) {
           cells[y][x].die(); // Die of underpopulation
-        } else if (isAlive(x, y) && (neighbours(x, y) == 2 || neighbours(x, y) == 3)) {
-          cells[y][x].live(UNSET_COLOUR); // Live on to the next generation
         } else if (isAlive(x, y) && neighbours(x, y) > 3) {
           cells[y][x].die(); // Die of overpopulation
         } else if (!isAlive(x, y) && neighbours(x, y) == 3) {
