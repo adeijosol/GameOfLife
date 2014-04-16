@@ -31,7 +31,6 @@ void setup() {
   // Set up grid
   grid = new Grid(width, height, CELL_SIZE);
   grid.randomise();
-  grid.draw();
 }
 
 void draw() {
