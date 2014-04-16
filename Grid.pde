@@ -112,7 +112,7 @@ class Grid {
 
     void run() { // Randomise grid row cells' states
       for (int x = 0; x < width; x++) {
-        if (int(random(5)) == 0) cells[y][x].live(UNSET_COLOUR); // TODO Use constant for 5
+        if (int(random(CELL_PROBABILITY_TO_LIVE)) == 0) cells[y][x].live(UNSET_COLOUR);
         else cells[y][x].die();
       }
     }

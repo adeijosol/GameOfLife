@@ -6,6 +6,7 @@ final int SCREEN_WIDTH = 1366;
 final int SCREEN_HEIGHT = 768;
 final int GAME_DELAY = 100;
 final int CELL_SIZE = 5;
+final int CELL_PROBABILITY_TO_LIVE = 5;
 // ----------------------------------
 
 
