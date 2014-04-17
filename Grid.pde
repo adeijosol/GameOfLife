@@ -73,7 +73,7 @@ class Grid {
   void draw() {
     background(BLACK); // Overwrite previous grid
 
-    for (int y = 0; y < height; y++) { // NOTE Cannot multi-thread cell drawing
+    for (int y = 0; y < height; y++) { // NOTE Cannot multithread cell drawing
       for (int x = 0; x < width; x++) {
         Cell cell = cells[y][x];
         if (cell.isAlive()) cell.draw(filled); // Only draw live cells
@@ -186,7 +186,7 @@ class Grid {
     int neighbours(int x, int y) { // Count cell's neighbours
       int neighbours = 0;
 
-      for (int yi = y - 1; yi <= y + 1; yi++) { // NOTE Wrapping does not work due to multi-threading
+      for (int yi = y - 1; yi <= y + 1; yi++) { // NOTE Wrapping does not work due to multithreading
         if (yi < 0 || yi >= height) continue; // Only count within the grid
         for (int xi = x - 1; xi <= x + 1; xi++) {
           if (xi < 0 || xi >= width) continue;
