@@ -29,7 +29,6 @@ void setup() {
 
 void draw() {
   if (simulationIsRunning) grid.update();
-
   grid.draw();
 
   if (!simulationIsRunning) {
