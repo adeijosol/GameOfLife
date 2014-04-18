@@ -11,38 +11,35 @@ class Cell {
     this.y = y;
     this.size = size;
     this.alive = alive;
-    colour = UNSET_COLOUR;
+    colour = 0; // No colour
   }
 
   boolean isAlive() {
     return alive;
   }
 
-  void live(color colour) { // Create cell
+  void live() {
     alive = true;
-    this.colour = (colour == UNSET_COLOUR) ? generateRandomColour() : colour;
+    this.colour = generateRandomColour();
   }
 
-  void die() { // Kill cell
+  void live(color colour) {
+    alive = true;
+    this.colour = colour;
+  }
+
+  void die() {
     alive = false;
-    colour = UNSET_COLOUR;
+    colour = 0;
   }
 
   void highlight(color colour) {
     this.colour = colour;
-    draw(true); // Draw highlighted (filled) cell
+    draw();
   }
 
-  void draw(boolean filled) {
-    if (filled) { // Draw filled cell
-      noStroke();
-      fill(colour);
-    } else { // Draw cell outline
-      stroke(colour);
-      noFill();
-    }
-
-    // Draw cell
+  void draw() {
+    fill(colour);
     pushMatrix();
     translate(x * size, y * size);
     rect(0, 0, size, size);

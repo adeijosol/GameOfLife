@@ -1,21 +1,16 @@
-// NOTE Flashes of random background colours occur occasionally. Cause unknown.
-
 // Change the following as preferred:
 // ----------------------------------
 final int SCREEN_WIDTH = 1366;
 final int SCREEN_HEIGHT = 768;
-final int GAME_DELAY = 100;
+final int ANIMATION_DELAY = 100;
 final int CELL_SIZE = 5;
-final int CELL_PROBABILITY_TO_LIVE = 5;
+final int CELL_PROBABILITY_TO_LIVE = 10;
 // ----------------------------------
 
 
 final int MAX_COLOUR_VALUE = 256;
-final int BLACK = #000000;
-final color UNSET_COLOUR = color(0, 0, 0);
 
-boolean gameIsRunning = false; // Simulation is paused initially
-
+boolean simulationIsRunning = false;
 int previousX = 0;
 int previousY = 0;
 int x = 0;
@@ -26,41 +21,39 @@ Grid grid;
 
 
 void setup() {
-  size(SCREEN_WIDTH, SCREEN_HEIGHT); // Set up screen
-
-  // Set up grid
+  noStroke();
+  size(SCREEN_WIDTH, SCREEN_HEIGHT);
   grid = new Grid(width, height, CELL_SIZE);
   grid.randomise();
 }
 
 void draw() {
-  if (gameIsRunning) grid.update(); // Update grid only when simulation is running
+  if (simulationIsRunning) grid.update();
 
   grid.draw();
 
-  if (!gameIsRunning) { // When simulation is paused
-    // Get grid coordinates
+  if (!simulationIsRunning) {
     x = grid.getCoordinate(mouseX);
     y = grid.getCoordinate(mouseY);
 
-    if (x != previousX || y != previousY) { // Change highlight colour for different coordinates
+    if (x != previousX || y != previousY) { // Change highlight colour for different cells
       previousX = x;
       previousY = y;
       highlightColour = generateRandomColour();
     }
 
-    grid.highlight(x, y, highlightColour); // Highlight cell
+    grid.highlightCell(x, y, highlightColour);
   }
 
   try {
-    Thread.sleep(GAME_DELAY); // Slow simulation down
+    Thread.sleep(ANIMATION_DELAY);
   } catch (InterruptedException e) {}
 }
 
 void keyPressed() {
   switch (key) {
-    case 'p': // Pause simulation
-      gameIsRunning = !gameIsRunning;
+    case 'p': // Resume/pause simulation
+      simulationIsRunning = !simulationIsRunning;
       break;
     case 'c': // Clear grid
       grid.clear();
@@ -70,9 +63,6 @@ void keyPressed() {
       grid.randomise();
       grid.draw();
       break;
-    case 'f': // Toggle live cell fill
-      grid.toggleFill();
-      break;
     case 'q': // Quit
       exit();
       break;
@@ -80,14 +70,14 @@ void keyPressed() {
 }
 
 void mousePressed() {
-  if (gameIsRunning) return; // Ignore mouse press when simulation is running
+  if (simulationIsRunning) return;
 
   switch (mouseButton) {
-    case LEFT: // Create live cell
-      grid.live(x, y, highlightColour);
+    case LEFT:
+      grid.makeCellLive(x, y, highlightColour);
       break;
-    case RIGHT: // Remove live cell
-      grid.die(x, y);
+    case RIGHT:
+      grid.makeCellDie(x, y);
       break;
   }
 }

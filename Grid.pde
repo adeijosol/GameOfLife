@@ -1,92 +1,76 @@
 class Grid {
 
+  final color BLACK = color(0, 0, 0);
+
   int width;
   int height;
-  int size;
-
-  boolean filled;
-  Cell[][] oldCells;
+  int cellSize;
+  Cell[][] previousCells;
   Cell[][] cells;
 
-  Grid(int width, int height, int size) {
-    this.width = width / size;
-    this.height = height / size;
-    this.size = size;
-
-    filled = true; // Fill live cells by default
-    oldCells = new Cell[height][width];
+  Grid(int width, int height, int cellSize) {
+    this.width = width / cellSize;
+    this.height = height / cellSize;
+    this.cellSize = cellSize;
+    previousCells = new Cell[height][width];
     cells = new Cell[height][width];
 
     initialise();
   }
 
-  void toggleFill() { // Toggle live cell fill
-    filled = !filled;
+  int getCoordinate(int mouseCoordinate) { // Convert mouse position to grid coordinate
+    // x: [0, width / cellSize), y: [0, height / cellSize)
+    return (max(mouseCoordinate - cellSize, -1) + 1) / cellSize;
   }
 
-  int getCoordinate(int mouseCoordinate) { // Convert mouse to grid coordinate
-    // x: [0, width / size)
-    // y: [0, height / size)
-    return (max(mouseCoordinate - size, -1) + 1) / size;
-  }
-
-  void initialise() { // Fill grid with cells by row simultaneously
+  void initialise() { // Fill grid with cells
     for (int y = 0; y < height; y++) {
       (new InitialiseThread(y)).start();
     }
   }
 
-  void clear() { // Clear grid cells by row simultaneously
+  void clear() {
     for (int y = 0; y < height; y++) {
       (new ClearThread(y)).start();
     }
   }
 
-  void randomise() { // Randomise cells' states by row simultaneously
+  void randomise() {
     for (int y = 0; y < height; y++) {
       (new RandomiseThread(y)).start();
     }
   }
 
-  void copy() { // Create copy of cells by row simultaneously
-    // For pure calculation of the succeeding generation
-    for (int y = 0; y < height; y++) {
+  void update() {
+    for (int y = 0; y < height; y++) { // Copy cells to purely calculate the next generation
       (new CopyThread(y)).start();
     }
-  }
 
-  void tick() { // Calculate next generation by row simultaneously
-    for (int y = 0; y < height; y++) {
+    for (int y = 0; y < height; y++) { // Calculate next generation
       (new TickThread(y)).start();
     }
   }
 
-  void update() { // Update cells
-    copy();
-    tick();
-  }
-
-  void highlight(int x, int y, color colour) {
-    cells[y][x].highlight(colour); // Highlight cell
-  }
-
   void draw() {
-    background(BLACK); // Overwrite previous grid
-
+    background(BLACK); // Draw over previous grid
     for (int y = 0; y < height; y++) { // NOTE Cannot multithread cell drawing
       for (int x = 0; x < width; x++) {
         Cell cell = cells[y][x];
-        if (cell.isAlive()) cell.draw(filled); // Only draw live cells
+        if (cell.isAlive()) cell.draw();
       }
     }
   }
 
-  void live(int x, int y, color colour) {
-    cells[y][x].live(colour); // Create live cell
+  void highlightCell(int x, int y, color colour) {
+    cells[y][x].highlight(colour);
   }
 
-  void die(int x, int y) {
-    cells[y][x].die(); // Kill cell
+  void makeCellLive(int x, int y, color colour) {
+    cells[y][x].live(colour);
+  }
+
+  void makeCellDie(int x, int y) {
+    cells[y][x].die();
   }
 
 
@@ -98,9 +82,9 @@ class Grid {
       this.y = y;
     }
 
-    void run() { // Fill grid row with cells
+    void run() {
       for (int x = 0; x < width; x++) {
-        cells[y][x] = new Cell(x, y, size, false);
+        cells[y][x] = new Cell(x, y, cellSize, false);
       }
     }
 
@@ -115,7 +99,7 @@ class Grid {
       this.y = y;
     }
 
-    void run() { // Clear grid row cells
+    void run() {
       for (int x = 0; x < width; x++) {
         cells[y][x].die();
       }
@@ -132,9 +116,9 @@ class Grid {
       this.y = y;
     }
 
-    void run() { // Randomise grid row cells' states
+    void run() {
       for (int x = 0; x < width; x++) {
-        if (int(random(CELL_PROBABILITY_TO_LIVE)) == 0) cells[y][x].live(UNSET_COLOUR);
+        if (int(random(CELL_PROBABILITY_TO_LIVE)) == 0) cells[y][x].live();
         else cells[y][x].die();
       }
     }
@@ -150,9 +134,9 @@ class Grid {
       this.y = y;
     }
 
-    void run() { // Create copy of grid row cells
+    void run() {
       for (int x = 0; x < width; x++) {
-        oldCells[y][x] = new Cell(x, y, size, cells[y][x].isAlive());
+        previousCells[y][x] = new Cell(x, y, cellSize, cells[y][x].isAlive());
       }
     }
 
@@ -167,31 +151,31 @@ class Grid {
       this.y = y;
     }
 
-    void run() { // Calculate grid row's next generation
+    void run() {
       for (int x = 0; x < width; x++) {
         if (isAlive(x, y) && neighbours(x, y) < 2) {
           cells[y][x].die(); // Die of underpopulation
         } else if (isAlive(x, y) && neighbours(x, y) > 3) {
           cells[y][x].die(); // Die of overpopulation
         } else if (!isAlive(x, y) && neighbours(x, y) == 3) {
-          cells[y][x].live(UNSET_COLOUR); // Live by reproduction
+          cells[y][x].live(); // Live by reproduction
         }
       }
     }
 
     boolean isAlive(int x, int y) {
-      return oldCells[y][x].isAlive();
+      return previousCells[y][x].isAlive();
     }
 
-    int neighbours(int x, int y) { // Count cell's neighbours
+    int neighbours(int x, int y) {
       int neighbours = 0;
 
       for (int yi = y - 1; yi <= y + 1; yi++) { // NOTE Wrapping does not work due to multithreading
-        if (yi < 0 || yi >= height) continue; // Only count within the grid
+        if (yi < 0 || yi >= height) continue;
         for (int xi = x - 1; xi <= x + 1; xi++) {
           if (xi < 0 || xi >= width) continue;
-          if (xi == x && yi == y) continue; // Do not count the cell itself
-          if (oldCells[yi][xi].isAlive()) neighbours++;
+          if (xi == x && yi == y) continue;
+          if (previousCells[yi][xi].isAlive()) neighbours++;
         }
       }
 
