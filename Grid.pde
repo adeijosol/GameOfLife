@@ -65,11 +65,11 @@ class Grid {
     cells[y][x].highlight(colour);
   }
 
-  void makeCellLive(int x, int y, color colour) {
+  void addLiveCell(int x, int y, color colour) {
     cells[y][x].live(colour);
   }
 
-  void makeCellDie(int x, int y) {
+  void removeLiveCell(int x, int y) {
     cells[y][x].die();
   }
 

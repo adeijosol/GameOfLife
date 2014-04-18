@@ -74,10 +74,10 @@ void mousePressed() {
 
   switch (mouseButton) {
     case LEFT:
-      grid.makeCellLive(x, y, highlightColour);
+      grid.addLiveCell(x, y, highlightColour);
       break;
     case RIGHT:
-      grid.makeCellDie(x, y);
+      grid.removeLiveCell(x, y);
       break;
   }
 }
