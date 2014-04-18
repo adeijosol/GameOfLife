@@ -24,26 +24,55 @@ class Grid {
   }
 
   void initialise() { // Fill grid with cells
-    for (int y = 0; y < height; y++) {
-      (new InitialiseThread(y)).start();
+    for (int i = 0; i < height; i++) {
+      final int y = i; // To reference y within the inner class
+      (new Thread() {
+        public void run() {
+          for (int x = 0; x < width; x++) {
+            cells[y][x] = new Cell(x, y, cellSize, false);
+          }
+        }
+      }).start();
     }
   }
 
   void clear() {
-    for (int y = 0; y < height; y++) {
-      (new ClearThread(y)).start();
+    for (int i = 0; i < height; i++) {
+      final int y = i;
+      (new Thread() {
+        public void run() {
+          for (int x = 0; x < width; x++) {
+            cells[y][x].die();
+          }
+        }
+      }).start();
     }
   }
 
   void randomise() {
-    for (int y = 0; y < height; y++) {
-      (new RandomiseThread(y)).start();
+    for (int i = 0; i < height; i++) {
+      final int y = i;
+      (new Thread() {
+        public void run() {
+          for (int x = 0; x < width; x++) {
+            if (int(random(CELL_PROBABILITY_TO_LIVE)) == 0) cells[y][x].live();
+            else cells[y][x].die();
+          }
+        }
+      }).start();
     }
   }
 
   void update() {
-    for (int y = 0; y < height; y++) { // Copy cells to purely calculate the next generation
-      (new CopyThread(y)).start();
+    for (int i = 0; i < height; i++) { // Copy cells to purely calculate the next generation
+      final int y = i;
+      (new Thread() {
+        public void run() {
+          for (int x = 0; x < width; x++) {
+            previousCells[y][x] = new Cell(x, y, cellSize, cells[y][x].isAlive());
+          }
+        }
+      }).start();
     }
 
     for (int y = 0; y < height; y++) { // Calculate next generation
@@ -71,75 +100,6 @@ class Grid {
 
   void removeLiveCell(int x, int y) {
     cells[y][x].die();
-  }
-
-
-  class InitialiseThread extends Thread {
-
-    int y;
-
-    InitialiseThread(int y) {
-      this.y = y;
-    }
-
-    void run() {
-      for (int x = 0; x < width; x++) {
-        cells[y][x] = new Cell(x, y, cellSize, false);
-      }
-    }
-
-  }
-
-
-  class ClearThread extends Thread {
-
-    int y;
-
-    ClearThread(int y) {
-      this.y = y;
-    }
-
-    void run() {
-      for (int x = 0; x < width; x++) {
-        cells[y][x].die();
-      }
-    }
-
-  }
-
-
-  class RandomiseThread extends Thread {
-
-    int y;
-
-    RandomiseThread(int y) {
-      this.y = y;
-    }
-
-    void run() {
-      for (int x = 0; x < width; x++) {
-        if (int(random(CELL_PROBABILITY_TO_LIVE)) == 0) cells[y][x].live();
-        else cells[y][x].die();
-      }
-    }
-
-  }
-
-
-  class CopyThread extends Thread {
-
-    int y;
-
-    CopyThread(int y) {
-      this.y = y;
-    }
-
-    void run() {
-      for (int x = 0; x < width; x++) {
-        previousCells[y][x] = new Cell(x, y, cellSize, cells[y][x].isAlive());
-      }
-    }
-
   }
 
 
@@ -181,8 +141,5 @@ class Grid {
 
       return neighbours;
     }
-
   }
-
-
 }

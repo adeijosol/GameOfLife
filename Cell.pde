@@ -45,5 +45,4 @@ class Cell {
     rect(0, 0, size, size);
     popMatrix();
   }
-
 }
