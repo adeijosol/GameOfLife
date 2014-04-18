@@ -20,7 +20,7 @@ class Cell {
 
   void live() {
     alive = true;
-    this.colour = generateRandomColour();
+    colour = generateRandomColour();
   }
 
   void live(color colour) {

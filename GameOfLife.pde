@@ -21,8 +21,8 @@ Grid grid;
 
 
 void setup() {
-  noStroke();
   size(SCREEN_WIDTH, SCREEN_HEIGHT);
+  noStroke();
   grid = new Grid(width, height, CELL_SIZE);
   grid.randomise();
 }
