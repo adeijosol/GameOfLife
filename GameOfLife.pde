@@ -1,11 +1,11 @@
-// Change the following as preferred:
-// ----------------------------------
+// Modify these as preferred:
+// --------------------------
 final int SCREEN_WIDTH = 1366;
 final int SCREEN_HEIGHT = 768;
 final int ANIMATION_DELAY = 100;
 final int CELL_SIZE = 5;
 final int CELL_PROBABILITY_TO_LIVE = 10;
-// ----------------------------------
+// --------------------------
 
 
 final int MAX_COLOUR_VALUE = 256;
