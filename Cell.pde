@@ -38,6 +38,6 @@ class Cell {
 
   void draw(int size) {
     fill(colour);
-    rect(x * size, y * size, size, size);
+    ellipse(x * size, y * size, size, size);
   }
 }

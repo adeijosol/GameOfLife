@@ -22,7 +22,6 @@ void setup() {
   prevY = 0;
 
   size(WIDTH, HEIGHT);
-  noStroke();
   grid = new Grid(width, height, CELL_SIZE);
   grid.randomise();
 }
