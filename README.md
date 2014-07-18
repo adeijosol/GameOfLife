@@ -28,7 +28,7 @@ Modify the following in [`GameOfLife.pde`](https://github.com/adjl/GameOfLife/ra
   - 1 = 100%, 2 = 50%, 4 = 25%, etc.
 - `COLOURS` (default: red, green, blue, cyan, magenta, yellow)
 
-## Notes
+## Note
 - The simulation starts with a random seed.
 
 ## License
