@@ -2,14 +2,12 @@ class Cell {
 
   int x;
   int y;
-  int size;
   boolean alive;
   color colour;
 
-  Cell(int x, int y, int size, boolean alive) {
+  Cell(int x, int y, boolean alive) {
     this.x = x;
     this.y = y;
-    this.size = size;
     this.alive = alive;
     colour = 0; // No colour
   }
@@ -20,7 +18,7 @@ class Cell {
 
   void live() {
     alive = true;
-    colour = generateRandomColour();
+    colour = generateColour();
   }
 
   void live(color colour) {
@@ -33,16 +31,13 @@ class Cell {
     colour = 0;
   }
 
-  void highlight(color colour) {
+  void highlight(color colour, int size) {
     this.colour = colour;
-    draw();
+    draw(size);
   }
 
-  void draw() {
+  void draw(int size) {
     fill(colour);
-    pushMatrix();
-    translate(x * size, y * size);
-    rect(0, 0, size, size);
-    popMatrix();
+    rect(x * size, y * size, size, size);
   }
 }

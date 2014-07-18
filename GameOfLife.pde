@@ -1,47 +1,49 @@
-// Modify these as preferred:
-// --------------------------
-final int SCREEN_WIDTH = 1366;
-final int SCREEN_HEIGHT = 768;
+final int WIDTH = 1366;
+final int HEIGHT = 768;
 final int ANIMATION_DELAY = 100;
 final int CELL_SIZE = 5;
-final int CELL_PROBABILITY_TO_LIVE = 10;
-// --------------------------
+final int CELL_CHANCE_TO_LIVE = 10;
+final color[] COLOURS = {#FF0000, #00FF00, #0000FF, #00FFFF, #FF00FF, #FFFF00};
 
+boolean running;
+int x;
+int y;
+int prevX;
+int prevY;
 
-final int MAX_COLOUR_VALUE = 256;
-
-boolean simulationIsRunning = false;
-int previousX = 0;
-int previousY = 0;
-int x = 0;
-int y = 0;
-
-color highlightColour;
 Grid grid;
-
+color highlight;
 
 void setup() {
-  size(SCREEN_WIDTH, SCREEN_HEIGHT);
+  running = false;
+  x = 0;
+  y = 0;
+  prevX = 0;
+  prevY = 0;
+
+  size(WIDTH, HEIGHT);
   noStroke();
   grid = new Grid(width, height, CELL_SIZE);
   grid.randomise();
 }
 
 void draw() {
-  if (simulationIsRunning) grid.update();
+  if (running) {
+    grid.update();
+  }
   grid.draw();
 
-  if (!simulationIsRunning) {
+  if (!running) {
     x = grid.getCoordinate(mouseX);
     y = grid.getCoordinate(mouseY);
 
-    if (x != previousX || y != previousY) { // Change highlight colour for different cells
-      previousX = x;
-      previousY = y;
-      highlightColour = generateRandomColour();
+    if (x != prevX || y != prevY) { // Change highlight for different cells
+      prevX = x;
+      prevY = y;
+      highlight = generateColour();
     }
 
-    grid.highlightCell(x, y, highlightColour);
+    grid.highlightCell(x, y, highlight);
   }
 
   try {
@@ -51,8 +53,8 @@ void draw() {
 
 void keyPressed() {
   switch (key) {
-    case 'p': // Resume/pause simulation
-      simulationIsRunning = !simulationIsRunning;
+    case 'p': // Resume/pause
+      running = !running;
       break;
     case 'c': // Clear grid
       grid.clear();
@@ -69,18 +71,20 @@ void keyPressed() {
 }
 
 void mousePressed() {
-  if (simulationIsRunning) return;
+  if (running) {
+    return;
+  }
 
   switch (mouseButton) {
     case LEFT:
-      grid.addLiveCell(x, y, highlightColour);
+      grid.addLiveCell(x, y, highlight);
       break;
     case RIGHT:
-      grid.removeLiveCell(x, y);
+      grid.killCell(x, y);
       break;
   }
 }
 
-color generateRandomColour() {
-  return color(random(MAX_COLOUR_VALUE), random(MAX_COLOUR_VALUE), random(MAX_COLOUR_VALUE));
+color generateColour() {
+  return COLOURS[int(random(COLOURS.length))];
 }
