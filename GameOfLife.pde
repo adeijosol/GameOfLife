@@ -3,7 +3,9 @@ final int HEIGHT = 768;
 final int ANIMATION_DELAY = 100;
 final int CELL_SIZE = 5;
 final int CELL_CHANCE_TO_LIVE = 10;
-final color[] COLOURS = {#FF0000, #00FF00, #0000FF, #00FFFF, #FF00FF, #FFFF00};
+final color[] COLOURS = {
+  #FF0000, #00FF00, #0000FF, #00FFFF, #FF00FF, #FFFF00
+};
 
 boolean running;
 int x;
@@ -47,7 +49,8 @@ void draw() {
 
   try {
     Thread.sleep(ANIMATION_DELAY);
-  } catch (InterruptedException e) {}
+  } catch (InterruptedException e) {
+  }
 }
 
 void keyPressed() {
