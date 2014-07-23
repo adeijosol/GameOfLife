@@ -1,5 +1,3 @@
-final int WIDTH = 1366;
-final int HEIGHT = 768;
 final int ANIMATION_DELAY = 100;
 final int CELL_SIZE = 5;
 final int CELL_CHANCE_TO_LIVE = 10;
@@ -16,6 +14,10 @@ int prevY;
 Grid grid;
 color highlight;
 
+boolean sketchFullScreen() {
+  return true;
+}
+
 void setup() {
   running = false;
   x = 0;
@@ -23,7 +25,7 @@ void setup() {
   prevX = 0;
   prevY = 0;
 
-  size(WIDTH, HEIGHT);
+  size(displayWidth, displayHeight);
   grid = new Grid(width, height, CELL_SIZE);
   grid.randomise();
 }
