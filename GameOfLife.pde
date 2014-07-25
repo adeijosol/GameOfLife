@@ -14,10 +14,6 @@ int prevY;
 Grid grid;
 color highlight;
 
-boolean sketchFullScreen() {
-  return true;
-}
-
 void setup() {
   running = false;
   x = 0;
