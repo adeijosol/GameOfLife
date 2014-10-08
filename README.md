@@ -18,8 +18,6 @@ Mouse events are ignored when the simulation is running.
 
 ## Parameters
 Modify the following in [`GameOfLife.pde`](https://github.com/adjl/GameOfLife/raw/master/GameOfLife.pde) to your preferences:
-- `WIDTH` (default: 1366)
-- `HEIGHT` (default: 768)
 - `ANIMATION_DELAY` (default: 100)
 - `CELL_SIZE` (default: 5)
 - `CELL_CHANCE_TO_LIVE` (default: 10)
