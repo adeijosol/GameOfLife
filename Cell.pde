@@ -1,43 +1,43 @@
-class Cell {
+private class Cell {
 
-  int x;
-  int y;
-  boolean alive;
-  color colour;
+    private int mX;
+    private int mY;
+    private boolean mAlive;
+    private color mColour;
 
-  Cell(int x, int y, boolean alive) {
-    this.x = x;
-    this.y = y;
-    this.alive = alive;
-    colour = 0; // No colour
-  }
+    Cell(int x, int y, boolean alive) {
+        mX = x;
+        mY = y;
+        mAlive = alive;
+        mColour = 0; // No colour
+    }
 
-  boolean isAlive() {
-    return alive;
-  }
+    boolean isAlive() {
+        return mAlive;
+    }
 
-  void live() {
-    alive = true;
-    colour = generateColour();
-  }
+    void live() {
+        mAlive = true;
+        mColour = generateColour();
+    }
 
-  void live(color colour) {
-    alive = true;
-    this.colour = colour;
-  }
+    void live(color colour) {
+        mAlive = true;
+        mColour = colour;
+    }
 
-  void die() {
-    alive = false;
-    colour = 0;
-  }
+    void die() {
+        mAlive = false;
+        mColour = 0;
+    }
 
-  void highlight(color colour, int size) {
-    this.colour = colour;
-    draw(size);
-  }
+    void highlight(color colour, int size) {
+        mColour = colour;
+        draw(size);
+    }
 
-  void draw(int size) {
-    fill(colour);
-    ellipse(x * size, y * size, size, size);
-  }
+    void draw(int size) {
+        fill(mColour);
+        ellipse(mX * size, mY * size, size, size);
+    }
 }
