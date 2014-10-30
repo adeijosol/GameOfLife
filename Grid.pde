@@ -18,7 +18,7 @@ private class Grid {
     private void initialise() { // Fill grid with cells
         for (int y = 0; y < mHeight; y++) {
             for (int x = 0; x < mWidth; x++) {
-                mCells[y][x] = new Cell(x, y, false);
+                mCells[y][x] = new Cell(x, y);
             }
         }
     }

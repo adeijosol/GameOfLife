@@ -6,11 +6,14 @@ private class Cell {
     private boolean mAlive;
     private color mColour;
 
-    Cell(int x, int y, boolean alive) {
+    Cell(int x, int y) {
         mX = x;
         mY = y;
+    }
+
+    Cell(int x, int y, boolean alive) {
+        this(x, y);
         mAlive = alive;
-        mColour = 0; // No colour
     }
 
     boolean isAlive() {

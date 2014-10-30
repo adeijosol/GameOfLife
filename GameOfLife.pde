@@ -13,12 +13,6 @@ private int prevY;
 
 @Override
 void setup() {
-    running = false;
-    x = 0;
-    y = 0;
-    prevX = 0;
-    prevY = 0;
-
     size(displayWidth, displayHeight);
     grid = new Grid(width, height, CELL_SIZE);
     grid.randomise();
@@ -86,6 +80,6 @@ void mousePressed() {
     }
 }
 
-private color generateColour() {
+color generateColour() {
     return COLOURS[int(random(COLOURS.length))];
 }
