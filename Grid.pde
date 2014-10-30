@@ -1,10 +1,10 @@
 private class Grid {
 
-    private int mWidth;
-    private int mHeight;
-    private int mCellSize;
-    private Cell[][] mCells;
-    private Cell[][] mPrevCells;
+    private final int mWidth;
+    private final int mHeight;
+    private final int mCellSize;
+    private final Cell[][] mCells;
+    private final Cell[][] mPrevCells;
 
     Grid(int width, int height, int cellSize) {
         mWidth = width / cellSize;

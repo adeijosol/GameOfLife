@@ -1,7 +1,8 @@
 private class Cell {
 
-    private int mX;
-    private int mY;
+    private final int mX;
+    private final int mY;
+
     private boolean mAlive;
     private color mColour;
 
