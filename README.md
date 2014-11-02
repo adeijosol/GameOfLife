@@ -1,7 +1,7 @@
 # Game of Life
 An implementation of Conway's Game of Life in Processing.
 
-![Screenshot of GameOfLife](https://github.com/adjl/GameOfLife/raw/master/screenshot.png)
+![Screenshot of GameOfLife](https://github.com/adjl/GameOfLife/raw/master/img/screenshot.png)
 
 ## Controls
 `p` - Resume/pause the simulation  
