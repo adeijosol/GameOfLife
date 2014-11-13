@@ -3,60 +3,59 @@ private static final int ANIMATION_DELAY = 100;
 private static final int CELL_CHANCE_TO_LIVE = 10;
 private static final int CELL_SIZE = 5;
 
-private Grid grid;
-private color highlight;
-private boolean running;
-private int x;
-private int y;
-private int prevX;
-private int prevY;
+private Grid mGrid;
+private color mHighlight;
+private boolean mRunning;
+private int mX;
+private int mY;
+private int mPrevX;
+private int mPrevY;
 
 @Override
 void setup() {
     size(displayWidth, displayHeight);
-    grid = new Grid(width, height, CELL_SIZE);
-    grid.randomise();
+    mGrid = new Grid(width, height, CELL_SIZE);
+    mGrid.randomise();
 }
 
 @Override
 void draw() {
-    if (running) {
-        grid.update();
+    if (mRunning) {
+        mGrid.update();
     }
-    grid.draw();
+    mGrid.draw();
 
-    if (!running) {
-        x = grid.getCoordinate(mouseX);
-        y = grid.getCoordinate(mouseY);
+    if (!mRunning) {
+        mX = mGrid.getCoordinate(mouseX);
+        mY = mGrid.getCoordinate(mouseY);
 
-        if (x != prevX || y != prevY) { // Change highlight for different cells
-            prevX = x;
-            prevY = y;
-            highlight = generateColour();
+        if (mX != mPrevX || mY != mPrevY) { // Change highlight for different cells
+            mPrevX = mX;
+            mPrevY = mY;
+            mHighlight = generateColour();
         }
 
-        grid.highlightCell(x, y, highlight);
+        mGrid.highlightCell(mX, mY, mHighlight);
     }
 
     try {
         Thread.sleep(ANIMATION_DELAY);
-    } catch (InterruptedException e) {
-    }
+    } catch (InterruptedException e) {}
 }
 
 @Override
 void keyPressed() {
     switch (key) {
         case 'p': // Resume/pause
-            running = !running;
+            mRunning = !mRunning;
             break;
         case 'c': // Clear grid
-            grid.clear();
-            grid.draw();
+            mGrid.clear();
+            mGrid.draw();
             break;
         case 'r': // Randomise grid
-            grid.randomise();
-            grid.draw();
+            mGrid.randomise();
+            mGrid.draw();
             break;
         case 'q': // Quit
             exit();
@@ -66,20 +65,20 @@ void keyPressed() {
 
 @Override
 void mousePressed() {
-    if (running) {
+    if (mRunning) {
         return;
     }
 
     switch (mouseButton) {
         case LEFT:
-            grid.addLiveCell(x, y, highlight);
+            mGrid.addLiveCell(mX, mY, mHighlight);
             break;
         case RIGHT:
-            grid.killCell(x, y);
+            mGrid.killCell(mX, mY);
             break;
     }
 }
 
-color generateColour() {
+private color generateColour() {
     return COLOURS[int(random(COLOURS.length))];
 }
