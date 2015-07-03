@@ -12,11 +12,6 @@ private class Cell {
         mY = y;
     }
 
-    Cell(int x, int y, boolean alive) {
-        this(x, y);
-        mAlive = alive;
-    }
-
     boolean isAlive() {
         return mAlive;
     }

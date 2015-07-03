@@ -67,7 +67,7 @@ private class Grid {
         forEachCell(new CellRunnable() {
             @Override
             public void run(int x, int y) {
-                if (int(random(CELL_CHANCE_TO_LIVE)) == 0) {
+                if (randomInt(CELL_CHANCE_TO_LIVE) == 0) {
                     mCells[y][x].live();
                 } else {
                     mCells[y][x].die();
@@ -76,14 +76,14 @@ private class Grid {
         });
     }
 
-    void update() {
+    void update() { // Calculate next generation
         forEachCell(new CellRunnable() {
             @Override
             public void run(int x, int y) {
                 mCells[y][x].setNeighbours(countNeighbours(x, y));
             }
         });
-        forEachCell(new CellRunnable() { // Calculate next generation
+        forEachCell(new CellRunnable() {
             @Override
             public void run(int x, int y) {
                 Cell cell = mCells[y][x];
@@ -99,7 +99,7 @@ private class Grid {
     }
 
     void draw() {
-        background(BACKGROUND); // Draw over previous grid
+        background(BACKGROUND);
         forEachCell(new CellRunnable() {
             @Override
             public void run(int x, int y) {

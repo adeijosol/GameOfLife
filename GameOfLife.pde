@@ -81,6 +81,10 @@ void mousePressed() {
     }
 }
 
+private int randomInt(int upperBound) {
+    return int(random(upperBound));
+}
+
 private color generateColour() {
-    return COLOURS[int(random(COLOURS.length))];
+    return COLOURS[randomInt(COLOURS.length)];
 }
