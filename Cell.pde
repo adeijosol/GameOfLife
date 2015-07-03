@@ -41,7 +41,7 @@ private class Cell {
 
     void die() {
         mAlive = false;
-        mColour = 0;
+        mColour = BACKGROUND;
     }
 
     void highlight(color colour, int size) {

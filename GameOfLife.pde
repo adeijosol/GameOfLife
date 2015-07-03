@@ -1,4 +1,5 @@
 private static final color[] COLOURS = {#FF0000, #00FF00, #0000FF, #00FFFF, #FF00FF, #FFFF00};
+private static final color BACKGROUND = #000000;
 private static final int ANIMATION_DELAY = 100;
 private static final int CELL_CHANCE_TO_LIVE = 10;
 private static final int CELL_SIZE = 5;

@@ -99,7 +99,7 @@ private class Grid {
     }
 
     void draw() {
-        background(#000000); // Draw over previous grid
+        background(BACKGROUND); // Draw over previous grid
         forEachCell(new CellRunnable() {
             @Override
             public void run(int x, int y) {
