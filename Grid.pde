@@ -4,46 +4,49 @@ private class Grid {
     private final int mHeight;
     private final int mCellSize;
     private final Cell[][] mCells;
-    private final Cell[][] mPrevCells;
 
     Grid(int width, int height, int cellSize) {
         mWidth = width / cellSize;
         mHeight = height / cellSize;
         mCellSize = cellSize;
         mCells = new Cell[height][width];
-        mPrevCells = new Cell[height][width];
         initialise();
     }
 
-    private void initialise() { // Fill grid with cells
+    private void forEachCell(CellRunnable cellRunnable) {
         for (int y = 0; y < mHeight; y++) {
             for (int x = 0; x < mWidth; x++) {
-                mCells[y][x] = new Cell(x, y);
+                cellRunnable.run(x, y);
             }
         }
     }
 
-    private int neighbours(int x, int y) {
+    private void initialise() { // Fill grid with cells
+        forEachCell(new CellRunnable() {
+            @Override
+            public void run(int x, int y) {
+                mCells[y][x] = new Cell(x, y);
+            }
+        });
+    }
+
+    private int countNeighbours(int x, int y) {
         int neighbours = 0;
-        for (int yi = y - 1; yi <= y + 1; yi++) {
-            if (yi < 0 || yi >= mHeight) {
+        for (int j = y - 1; j <= y + 1; j++) {
+            if (j < 0 || j >= mHeight) {
                 continue;
             }
-            for (int xi = x - 1; xi <= x + 1; xi++) {
-                if (xi < 0 || xi >= mWidth) {
+            for (int i = x - 1; i <= x + 1; i++) {
+                if (i < 0 || i >= mWidth) {
                     continue;
-                } else if (xi == x && yi == y) {
+                } else if (i == x && j == y) {
                     continue;
-                } else if (mPrevCells[yi][xi].isAlive()) {
+                } else if (mCells[j][i].isAlive()) {
                     neighbours++;
                 }
             }
         }
         return neighbours;
-    }
-
-    private boolean isAlive(int x, int y) {
-        return mPrevCells[y][x].isAlive();
     }
 
     int getCoordinate(int mouseCoordinate) { // Convert mouse position to grid coordinate
@@ -52,54 +55,60 @@ private class Grid {
     }
 
     void clear() {
-        for (int y = 0; y < mHeight; y++) {
-            for (int x = 0; x < mWidth; x++) {
+        forEachCell(new CellRunnable() {
+            @Override
+            public void run(int x, int y) {
                 mCells[y][x].die();
             }
-        }
+        });
     }
 
     void randomise() {
-        for (int y = 0; y < mHeight; y++) {
-            for (int x = 0; x < mWidth; x++) {
+        forEachCell(new CellRunnable() {
+            @Override
+            public void run(int x, int y) {
                 if (int(random(CELL_CHANCE_TO_LIVE)) == 0) {
                     mCells[y][x].live();
                 } else {
                     mCells[y][x].die();
                 }
             }
-        }
+        });
     }
 
     void update() {
-        for (int y = 0; y < mHeight; y++) { // Copy cells to calculate the next generation
-            for (int x = 0; x < mWidth; x++) {
-                mPrevCells[y][x] = new Cell(x, y, mCells[y][x].isAlive());
+        forEachCell(new CellRunnable() {
+            @Override
+            public void run(int x, int y) {
+                mCells[y][x].setNeighbours(countNeighbours(x, y));
             }
-        }
-        for (int y = 0; y < mHeight; y++) { // Calculate next generation
-            for (int x = 0; x < mWidth; x++) {
-                if (isAlive(x, y) && neighbours(x, y) < 2) {
-                    mCells[y][x].die(); // Die of underpopulation
-                } else if (isAlive(x, y) && neighbours(x, y) > 3) {
-                    mCells[y][x].die(); // Die of overpopulation
-                } else if (!isAlive(x, y) && neighbours(x, y) == 3) {
-                    mCells[y][x].live(); // Live by reproduction
+        });
+        forEachCell(new CellRunnable() { // Calculate next generation
+            @Override
+            public void run(int x, int y) {
+                Cell cell = mCells[y][x];
+                if (cell.isAlive() && cell.getNeighbours() < 2) {
+                    cell.die(); // Die from underpopulation
+                } else if (cell.isAlive() && cell.getNeighbours() > 3) {
+                    cell.die(); // Die from overpopulation
+                } else if (!cell.isAlive() && cell.getNeighbours() == 3) {
+                    cell.live(); // Live by reproduction
                 }
             }
-        }
+        });
     }
 
     void draw() {
         background(#000000); // Draw over previous grid
-        for (int y = 0; y < mHeight; y++) {
-            for (int x = 0; x < mWidth; x++) {
+        forEachCell(new CellRunnable() {
+            @Override
+            public void run(int x, int y) {
                 Cell cell = mCells[y][x];
                 if (cell.isAlive()) {
                     cell.draw(mCellSize);
                 }
             }
-        }
+        });
     }
 
     void highlightCell(int x, int y, color colour) {

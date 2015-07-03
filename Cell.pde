@@ -5,6 +5,7 @@ private class Cell {
 
     private boolean mAlive;
     private color mColour;
+    private int mNeighbours;
 
     Cell(int x, int y) {
         mX = x;
@@ -18,6 +19,14 @@ private class Cell {
 
     boolean isAlive() {
         return mAlive;
+    }
+
+    int getNeighbours() {
+        return mNeighbours;
+    }
+
+    void setNeighbours(int neighbours) {
+        mNeighbours = neighbours;
     }
 
     void live() {
