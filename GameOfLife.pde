@@ -15,6 +15,7 @@ private int mPrevY;
 @Override
 void setup() {
     size(displayWidth, displayHeight);
+    noStroke();
     mGrid = new Grid(width, height, CELL_SIZE);
     mGrid.randomise();
 }
