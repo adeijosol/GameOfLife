@@ -22,8 +22,8 @@ Mouse events are ignored when the simulation is running.
 ## Parameters
 Modify the following in [`GameOfLife.pde`](GameOfLife.pde) to your preferences:
 - `COLOURS` (default: red, green, blue, cyan, magenta, yellow)
-- `ANIMATION_DELAY` (default: 100)
 - `BACKGROUND` (default: black)
+- `ANIMATION_DELAY` (default: 100)
 - `CELL_CHANCE_TO_LIVE` (default: 10)
   - Relevant only when randomising the grid
   - Must be greater than 0
