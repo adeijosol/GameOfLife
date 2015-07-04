@@ -1,3 +1,7 @@
+private interface CellRunnable {
+    void run(int x, int y);
+}
+
 private class Grid {
 
     private final int mWidth;
