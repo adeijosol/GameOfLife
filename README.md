@@ -4,7 +4,7 @@ Implementation of Conway's Game of Life in [Processing](https://processing.org)
 ![GameOfLife screenshot](img/gameoflife.png)
 
 ## Demo
-[Live demo](https://adjl.github.io/GameOfLife) written in [p5.js](http://p5js.org); does not implement mouse events.
+[Live demo](http://adjl.github.io/GameOfLife) written in [p5.js](http://p5js.org); does not implement mouse events.
 
 ## Controls
 `p` - Resume/pause the simulation  
