@@ -1,7 +1,10 @@
 # Game of Life
-Implementation of Conway's Game of Life in Processing
+Implementation of Conway's Game of Life in [Processing](https://processing.org)
 
-![Screenshot of GameOfLife](https://github.com/adjl/GameOfLife/raw/master/img/screenshot.png)
+![GameOfLife screenshot](img/gameoflife.png)
+
+## Demo
+[Live demo](https://adjl.github.io/GameOfLife) written in [p5.js](http://p5js.org); does not implement mouse events.
 
 ## Controls
 `p` - Resume/pause the simulation  
@@ -17,9 +20,10 @@ When the simulation is paused, you can move the mouse pointer around to highligh
 Mouse events are ignored when the simulation is running.
 
 ## Parameters
-Modify the following in [`GameOfLife.pde`](https://github.com/adjl/GameOfLife/raw/master/GameOfLife.pde) to your preferences:
+Modify the following in [`GameOfLife.pde`](GameOfLife.pde) to your preferences:
 - `COLOURS` (default: red, green, blue, cyan, magenta, yellow)
 - `ANIMATION_DELAY` (default: 100)
+- `BACKGROUND` (default: black)
 - `CELL_CHANCE_TO_LIVE` (default: 10)
   - Relevant only when randomising the grid
   - Must be greater than 0
@@ -30,4 +34,4 @@ Modify the following in [`GameOfLife.pde`](https://github.com/adjl/GameOfLife/ra
 - The simulation starts with a random seed.
 
 ## License
-[MIT License](https://github.com/adjl/GameOfLife/raw/master/LICENSE)
+[MIT License](LICENSE)
