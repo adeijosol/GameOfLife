@@ -67,7 +67,7 @@ Grid.prototype.forEachCell = function(cellFunction) {
     }
 };
 
-Grid.prototype.create2DCellArray = function() { // Fill grid with cells
+Grid.prototype.create2DCellArray = function() {
     var cells = [];
     for (var y = 0; y < this.height; y++) {
         cells[y] = [];
